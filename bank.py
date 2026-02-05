@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 
 class Bank:
 
@@ -17,6 +17,12 @@ class Account(ABC):
         self._account_number: str = account_number.strip().lower()
         self._holder: Bank = holder
         self._balance: float = 0
+
+    @abstractmethod
+    def deposit(self, amount: float) -> None: pass
+
+    @abstractmethod
+    def withdraw(self, amount: float) -> None: pass
 
     def get_account_number(self) -> str:
 
@@ -37,6 +43,19 @@ class CheckingAccount(Account):
         super().__init__(account_number, bank)
         self._overdraft_limit: float = overdraft_limit
 
+    def deposit(self, amount: float) -> None:
+        
+        if amount > 0: # ensure that the deposit amount is positive
+
+            self._balance += amount
+
+    def withdraw(self, amount: float) -> None:
+
+        # ensure that the withdrawal amount is positive and does not exceed the overdraft limit
+        if amount > 0 and amount < self._balance + self._overdraft_limit: 
+
+            self._balance -= amount
+
     def get_overdraft_limit(self) -> float:
 
         return self._overdraft_limit
@@ -53,6 +72,18 @@ class SavingsAccount(Account):
 
         super().__init__(account_number, bank)
         self._interest_rate: float = interest_rate
+
+    def deposit(self, amount: float) -> None:
+        if amount > 0: # ensure that the deposit amount is positive
+
+            self._balance += amount
+
+    def withdraw(self, amount: float) -> None:
+
+        # ensure that the withdrawal amount is positive and does not exceed the balance
+        if amount > 0 and amount < self._balance: 
+            
+            self._balance -= amount
 
     def get_interest_rate(self) -> float:
 
