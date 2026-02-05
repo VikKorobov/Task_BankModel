@@ -24,6 +24,13 @@ class Account(ABC):
     @abstractmethod
     def withdraw(self, amount: float) -> None: pass
 
+    def transfer(self, amount: float, target_account: Account) -> None:
+
+        if self._balance >= amount:
+            
+            self.withdraw(amount)
+            target_account.deposit(amount)
+
     def get_account_number(self) -> str:
 
         return self._account_number
@@ -86,7 +93,7 @@ class SavingsAccount(Account):
             self._balance -= amount
 
     def apply_monthly_interest(self) -> None:
-        
+
         self._balance += self._balance * self._interest_rate
 
     def get_interest_rate(self) -> float:
