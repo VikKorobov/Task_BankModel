@@ -72,6 +72,18 @@ class Person:
         self._address: str = address.strip().lower()
         self._accounts: list[Account] = []
 
+    def add_account(self, account: Account) -> None:
+
+        if account not in self._accounts: # ensure that the account is not already added
+
+            self._accounts.append(account)
+
+    def remove_account(self, account: Account) -> None:
+
+        if account in self._accounts: # ensure that the account is in the list
+
+            self._accounts.remove(account)
+
     def get_name(self) -> str:
 
         return self._name.capitalize()
