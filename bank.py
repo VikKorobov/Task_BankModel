@@ -25,11 +25,9 @@ class Account(ABC):
     def withdraw(self, amount: float) -> None: pass
 
     def transfer(self, amount: float, target_account: Account) -> None:
-
-        if self._balance >= amount:
-            
-            self.withdraw(amount)
-            target_account.deposit(amount)
+ 
+        self.withdraw(amount)
+        target_account.deposit(amount)
 
     def get_account_number(self) -> str:
 
