@@ -82,8 +82,12 @@ class SavingsAccount(Account):
 
         # ensure that the withdrawal amount is positive and does not exceed the balance
         if amount > 0 and amount < self._balance: 
-            
+
             self._balance -= amount
+
+    def apply_monthly_interest(self) -> None:
+        
+        self._balance += self._balance * self._interest_rate
 
     def get_interest_rate(self) -> float:
 
