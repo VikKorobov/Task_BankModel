@@ -4,17 +4,17 @@ class Bank:
 
     def __init__(self, name: str):
 
-        self._name: str = name
+        self._name: str = name.strip().lower()
 
     def get_name(self) -> str:
 
-        return self._name
+        return self._name.capitalize()
 
 class Account(ABC):
 
     def __init__(self, account_number: str, holder: Bank):
 
-        self._account_number: str = account_number
+        self._account_number: str = account_number.strip().lower()
         self._holder: Bank = holder
         self._balance: float = 0
 
@@ -42,8 +42,10 @@ class CheckingAccount(Account):
         return self._overdraft_limit
     
     def set_overdraft_limit(self, limit: float) -> None:
+        
+        if limit > 0: # ensure that the overdraft limit is positive
 
-        self._overdraft_limit = limit
+            self._overdraft_limit = limit
 
 class SavingsAccount(Account):
 
@@ -58,23 +60,25 @@ class SavingsAccount(Account):
     
     def set_interest_rate(self, rate: float) -> None:
 
-        self._interest_rate = rate
+        if rate > 0 and rate < 1: # ensure that the interest rate is between 0 and 1
+
+            self._interest_rate = rate
 
 class Person:
 
     def __init__(self, name: str, address: str):
-
-        self._name: str = name
-        self._address: str = address
+        
+        self._name: str = name.strip().lower()
+        self._address: str = address.strip().lower()
         self._accounts: list[Account] = []
 
     def get_name(self) -> str:
 
-        return self._name
+        return self._name.capitalize()
     
     def get_address(self) -> str:
 
-        return self._address
+        return self._address.capitalize()
     
     def get_accounts(self) -> list[Account]:
 
@@ -82,5 +86,9 @@ class Person:
     
     def set_address(self, address: str) -> None:
 
-        self._address = address
+        address = address.strip()
+
+        if len(address) > 1: # ensure that the address is valid
+
+            self._address = address.lower()
 
