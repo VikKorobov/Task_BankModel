@@ -23,11 +23,23 @@ class Account(ABC):
 
     @abstractmethod
     def withdraw(self, amount: float) -> None: pass
-
+    
     def transfer(self, amount: float, target_account: Account) -> None:
- 
-        self.withdraw(amount)
-        target_account.deposit(amount)
+
+        if not (self is target_account): # ensure that the source and target accounts are different
+
+            current_balance = self._balance
+            current_target_balance = target_account.get_balance()
+
+            self.withdraw(amount)
+
+            if self._balance < current_balance: # ensure that the withdrawal was successful
+
+                target_account.deposit(amount)
+
+                if target_account.get_balance() <= current_target_balance: # if the deposit was not successful, revert the withdrawal
+
+                    self.deposit(amount)
 
     def get_account_number(self) -> str:
 
